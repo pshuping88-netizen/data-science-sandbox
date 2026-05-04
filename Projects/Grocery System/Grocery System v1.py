@@ -24,7 +24,7 @@ while True:
                 if loop_choice != 0:
                     break
 
-                grocery_item = {"Item Name":input("Enter item Name: "),"Price":float(input("Enter item Price: ")),"Quantity":int(input("Enter item Quantity: ")),"Date":date.today().isoformat,"Category":input("Enter item Category: "),"Store":input("Enter store Name: ")}
+                grocery_item = {"Item Name":input("Enter item Name: "),"Price":float(input("Enter item Price: ")),"Quantity":int(input("Enter item Quantity: ")),"Date":date.today().isoformat(),"Category":input("Enter item Category: "),"Store":input("Enter store Name: ")}
                 grocery_list.append(grocery_item)
                 print("Item succesfully added!")
 
