@@ -20,7 +20,7 @@ while True:
         case 1:
             #Add item loop
             while True:
-                loop_choice = int(input("Enter 0 to Continue/ 1 to Exit: "))
+                loop_choice = int(input("Enter 0 to Continue / 1 to Exit: "))
                 if loop_choice != 0:
                     break
 
