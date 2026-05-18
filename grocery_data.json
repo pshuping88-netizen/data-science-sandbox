@@ -110,5 +110,141 @@
         "Date": "2026-05-05",
         "Category": "Vegtables",
         "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Eggs",
+        "Price": 49.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Sugar",
+        "Price": 67.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Fish Paste",
+        "Price": 45.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Nutella",
+        "Price": 49.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Snacks",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Milk",
+        "Price": 17.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Frozen Veg",
+        "Price": 36.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Produce",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Mince",
+        "Price": 84.71,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Wors",
+        "Price": 65.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Robot Peppers Pack",
+        "Price": 44.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Produce",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Brown Lentils",
+        "Price": 27.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Onion 4 Pack",
+        "Price": 24.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Produce",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Rice",
+        "Price": 129.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Staple",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Sweet Chilli Sauce",
+        "Price": 62.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Soya Mince",
+        "Price": 29.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Milk",
+        "Price": 19.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Wraps",
+        "Price": 61.99,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Gouda Cheese",
+        "Price": 12.75,
+        "Quantity": 1,
+        "Date": "2026-05-18",
+        "Category": "Protein",
+        "Store": "Spar"
     }
 ]
