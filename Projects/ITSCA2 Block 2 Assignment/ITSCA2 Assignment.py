@@ -62,3 +62,13 @@ plt.ylabel("Curb Weight")
 plt.grid(True)
 plt.show()
 
+#Graph 5 (Bar Graph): - Category Relationship
+avg_price_cylindernumber_data = car_pricing_data.groupby("cylindernumber")["price"].mean()#Group and store data in Series
+
+plt.figure(figsize=(10,6))
+plt.bar(avg_price_cylindernumber_data.index, avg_price_cylindernumber_data.values)
+plt.title("Average Price by Cylinder Number")
+plt.xlabel("Cylinder Number")
+plt.ylabel("Average Price")
+plt.grid(axis="y")
+plt.show()
