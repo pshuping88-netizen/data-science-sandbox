@@ -72,3 +72,59 @@ plt.xlabel("Cylinder Number")
 plt.ylabel("Average Price")
 plt.grid(axis="y")
 plt.show()
+
+#Data Cleaning and Market Structure
+#Filling Numerical Columns with Median
+car_pricing_data["price"] = car_pricing_data["price"].fillna(price_median)
+
+wheelbase_median = car_pricing_data["wheelbase"].median()
+car_pricing_data["wheelbase"] = car_pricing_data["wheelbase"].fillna(wheelbase_median)
+
+carlength_median = car_pricing_data["carlength"].median()
+car_pricing_data["carlength"] = car_pricing_data["carlength"].fillna(carlength_median)
+
+carwidth_median = car_pricing_data["carwidth"].median()
+car_pricing_data["carwidth"] = car_pricing_data["carwidth"].fillna(carwidth_median)
+
+carheight_median = car_pricing_data["carheight"].median()
+car_pricing_data["carheight"] = car_pricing_data["carheight"].fillna(carheight_median)
+
+curbweight_median = car_pricing_data["curbweight"].median()
+car_pricing_data["curbweight"] = car_pricing_data["curbweight"].fillna(curbweight_median)
+
+enginesize_median = car_pricing_data["enginesize"].median()
+car_pricing_data["enginesize"] = car_pricing_data["enginesize"].fillna(enginesize_median)
+
+boreratio_median = car_pricing_data["boreratio"].median()
+car_pricing_data["boreratio"] = car_pricing_data["boreratio"].fillna(boreratio_median)
+
+stroke_median = car_pricing_data["stroke"].median()
+car_pricing_data["stroke"] = car_pricing_data["stroke"].fillna(stroke_median)
+
+compressionratio_median = car_pricing_data["compressionratio"].median()
+car_pricing_data["compressionratio"] = car_pricing_data["compressionratio"].fillna(compressionratio_median)
+
+horsepower_median = car_pricing_data["horsepower"].median()
+car_pricing_data["horsepower"] = car_pricing_data["horsepower"].fillna(horsepower_median)
+
+peakrpm_median = car_pricing_data["peakrpm"].median()
+car_pricing_data["peakrpm"] = car_pricing_data["peakrpm"].fillna(peakrpm_median)
+
+citympg_median = car_pricing_data["citympg"].median()
+car_pricing_data["citympg"] = car_pricing_data["citympg"].fillna(citympg_median)
+
+highwaympg_median = car_pricing_data["highwaympg"].median()
+car_pricing_data["highwaympg"] = car_pricing_data["highwaympg"].fillna(highwaympg_median)
+
+categorical_cols = [
+    "fueltype", "aspiration", "doornumber", "carbody",
+    "drivewheel", "enginelocation", "enginetype",
+    "cylindernumber", "fuelsystem", "CarName"
+]
+
+for column in categorical_cols:
+    car_pricing_data[column] = car_pricing_data[column].fillna(
+        car_pricing_data[column].mode()[0]
+    )
+
+print(car_pricing_data.isnull().sum())
