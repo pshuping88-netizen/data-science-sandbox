@@ -74,57 +74,39 @@ plt.grid(axis="y")
 plt.show()
 
 #Data Cleaning and Market Structure
+
+#Lowering all column headings and dropping columns
+car_pricing_data.columns = car_pricing_data.columns.str.lower()
+car_pricing_data = car_pricing_data.drop("car_id", axis=1)
+
+#Filter Numerical Columns
+numerical_cols = ["price", "wheelbase", "carlength", "carwidth",
+                  "curbweight", "enginesize", "horsepower", 
+                  "citympg", "highwaympg"]
+
 #Filling Numerical Columns with Median
-car_pricing_data["price"] = car_pricing_data["price"].fillna(price_median)
+for column in numerical_cols:
+    car_pricing_data[column] = car_pricing_data[column].fillna(car_pricing_data[column].median())
 
-wheelbase_median = car_pricing_data["wheelbase"].median()
-car_pricing_data["wheelbase"] = car_pricing_data["wheelbase"].fillna(wheelbase_median)
+#Filter Categorical Columns
+categorical_cols = ["carname", "carbody", "drivewheel", 
+                    "fueltype", "aspiration", "enginelocation", 
+                    "cylindernumber", "enginetype"]
 
-carlength_median = car_pricing_data["carlength"].median()
-car_pricing_data["carlength"] = car_pricing_data["carlength"].fillna(carlength_median)
-
-carwidth_median = car_pricing_data["carwidth"].median()
-car_pricing_data["carwidth"] = car_pricing_data["carwidth"].fillna(carwidth_median)
-
-carheight_median = car_pricing_data["carheight"].median()
-car_pricing_data["carheight"] = car_pricing_data["carheight"].fillna(carheight_median)
-
-curbweight_median = car_pricing_data["curbweight"].median()
-car_pricing_data["curbweight"] = car_pricing_data["curbweight"].fillna(curbweight_median)
-
-enginesize_median = car_pricing_data["enginesize"].median()
-car_pricing_data["enginesize"] = car_pricing_data["enginesize"].fillna(enginesize_median)
-
-boreratio_median = car_pricing_data["boreratio"].median()
-car_pricing_data["boreratio"] = car_pricing_data["boreratio"].fillna(boreratio_median)
-
-stroke_median = car_pricing_data["stroke"].median()
-car_pricing_data["stroke"] = car_pricing_data["stroke"].fillna(stroke_median)
-
-compressionratio_median = car_pricing_data["compressionratio"].median()
-car_pricing_data["compressionratio"] = car_pricing_data["compressionratio"].fillna(compressionratio_median)
-
-horsepower_median = car_pricing_data["horsepower"].median()
-car_pricing_data["horsepower"] = car_pricing_data["horsepower"].fillna(horsepower_median)
-
-peakrpm_median = car_pricing_data["peakrpm"].median()
-car_pricing_data["peakrpm"] = car_pricing_data["peakrpm"].fillna(peakrpm_median)
-
-citympg_median = car_pricing_data["citympg"].median()
-car_pricing_data["citympg"] = car_pricing_data["citympg"].fillna(citympg_median)
-
-highwaympg_median = car_pricing_data["highwaympg"].median()
-car_pricing_data["highwaympg"] = car_pricing_data["highwaympg"].fillna(highwaympg_median)
-
-categorical_cols = [
-    "fueltype", "aspiration", "doornumber", "carbody",
-    "drivewheel", "enginelocation", "enginetype",
-    "cylindernumber", "fuelsystem", "CarName"
-]
-
+#Filling Categorical Columns with Mode (index at 0)
 for column in categorical_cols:
-    car_pricing_data[column] = car_pricing_data[column].fillna(
-        car_pricing_data[column].mode()[0]
-    )
+    car_pricing_data[column] = car_pricing_data[column].fillna(car_pricing_data[column].mode()[0])
 
+#Standardisation
+for column in categorical_cols:
+    car_pricing_data[column] = car_pricing_data[column].astype(str).str.strip().str.lower()
+
+#Check that missing values have been filled and that data types are expected
 print(car_pricing_data.isnull().sum())
+print(car_pricing_data.dtypes)
+
+#Storing cleaned data as dataframe
+selected_cols = numerical_cols + categorical_cols
+prepared_analysis_dataset = car_pricing_data[selected_cols]
+
+#Market Structure (Segmentation):
