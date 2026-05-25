@@ -58,7 +58,7 @@ def view_items(data_list):
 #Main Loop
 while True:
     #Display CLI menu
-    print(f"-----GROCERY DATA TRACKER-----\n1. Add Item\n2. View Items\n3. View Analytics\n4. View Insights\n5. Exit Tracker")
+    print(f"----- GROCERY DATA TRACKER -----\n1. Add Item\n2. View Items\n3. View Analytics\n4. View Insights\n5. Exit Tracker")
 
     #User Choice
     user_choice = get_valid_num("Enter Number: ",int,1,5)
@@ -106,7 +106,35 @@ while True:
         case 2:
             view_items(grocery_list)
         case 3:
-            print("View Analytics")
+            #View Analytics Menu
+            print("------ View Analytics -----\n1. Total Spend\n2. Spend By Category\n3. Spend By Store")
+            #User choice
+            user_choice2 = get_valid_num("Enter number: ",int,1,3)
+
+            match user_choice2:
+                case 1: 
+                    total_spend = 0 #(Initialize)
+                    for item in grocery_list:
+                        total_spend = total_spend + item["Price"] * item["Quantity"]
+                    print(f"Overall: R{total_spend:,.2f}")
+                    
+                case 2: 
+                    category_totals = {} #(Initialize)
+                    for category in categories:
+                        category_totals[category] = 0
+
+                    for item in grocery_list:
+                        item_spend = item["Price"] * item["Quantity"]
+                        category_totals[item["Category"]] += item_spend
+
+                    for category, category_spend in category_totals.items():
+                        print(f"{category}, R {category_spend:,.2f}")
+
+                case 3:
+                    print("Spend by Store")
+                case _:
+                      print("Wrong Value entered")
+            
         case 4:
             print("View Insights")
         case 5:
