@@ -1,9 +1,10 @@
-#Grocery System v2
-#import module
+#Grocery System v2.5
+#import modules
 import json
+import pandas as pd
 from datetime import date #(Only imports date function)
 
-#Try to open file if not found, creates new file
+#Try to open file if not found, creates new file 
 try:
     with open("grocery_data.json","r") as file:
         grocery_list = json.load(file)
@@ -23,7 +24,7 @@ def get_non_empty_str(text):
          if stripped_text == "":
              print("Text cannot be empty!")
              continue
-         return stripped_text
+         return stripped_text.title()
 
 #min and max boundaries are inclusive
 def get_valid_num(text,number_type,min_val,max_val):
@@ -48,15 +49,19 @@ def get_valid_num(text,number_type,min_val,max_val):
                     continue
 
 def view_items(data_list):
-     print("View Items")
+    if len(data_list) == 0:
+         print("There is no data to display (data is empty)")
+         return
+    grocery_dataframe = pd.DataFrame(data_list)
+    print(grocery_dataframe)
 
 #Main Loop
 while True:
     #Display CLI menu
-    print(f"-----GROCERY DATA TRACKER-----\n1. Add Item\n2. View Items\n3.Total Spend\n4.Exit Tracker")
+    print(f"-----GROCERY DATA TRACKER-----\n1. Add Item\n2. View Items\n3. View Analytics\n4. View Insights\n5. Exit Tracker")
 
     #User Choice
-    user_choice = get_valid_num("Enter Number: ",int,1,4)
+    user_choice = get_valid_num("Enter Number: ",int,1,5)
 
     #Match Case
     match user_choice:
@@ -67,6 +72,7 @@ while True:
             item_price = get_valid_num("Enter item Price: ",float,1.00,1000.00)
             #item Quantity
             item_quantity = get_valid_num("Enter item Quantity: ",int,1,100)
+
             #item Category
             print("Categories: \n")
             for i in range(len(categories)): 
@@ -75,6 +81,7 @@ while True:
             category_input = get_valid_num("Select item Category: ",int,1,len(categories))
             category_input -= 1
             item_category = categories[category_input]
+
             #item Store
             print("Stores: \n")
             for i in range(len(stores)):
@@ -97,10 +104,12 @@ while True:
             print("Data successfully saved to Memory!")
 
         case 2:
-            print("View Items")
+            view_items(grocery_list)
         case 3:
-            print("Total Spend")
+            print("View Analytics")
         case 4:
+            print("View Insights")
+        case 5:
             print("Exiting Tracker!")
             break
         case _:
