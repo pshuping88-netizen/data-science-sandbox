@@ -106,6 +106,9 @@ while True:
         case 2:
             view_items(grocery_list)
         case 3:
+<<<<<<< Updated upstream
+            print("View Analytics")
+=======
             #View Analytics Menu
             print("------ View Analytics -----\n1. Total Spend\n2. Spend By Category\n3. Spend By Store")
             #User choice
@@ -131,10 +134,21 @@ while True:
                         print(f"{category}, R {category_spend:,.2f}")
 
                 case 3:
-                    print("Spend by Store")
+                    store_totals = {} #(Initialize)
+                    for store in stores:
+                        store_totals[store] = 0
+                    
+                    for item in grocery_list:
+                        item_spend = item["Price"] * item["Quantity"]
+                        store_totals[item["Store"]] += item_spend
+
+                    for store, store_spend in store_totals.items():
+                        print(f"{store}, R {store_spend:,.2f}")
+
                 case _:
                       print("Wrong Value entered")
             
+>>>>>>> Stashed changes
         case 4:
             print("View Insights")
         case 5:
