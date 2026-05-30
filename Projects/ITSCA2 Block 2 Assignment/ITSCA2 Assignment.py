@@ -1,6 +1,10 @@
 #Import Modules
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 
 #Exploratory Data Analysis (Question 1.3)
 
@@ -80,9 +84,9 @@ car_pricing_data.columns = car_pricing_data.columns.str.lower()
 car_pricing_data = car_pricing_data.drop("car_id", axis=1)
 
 #Filter Numerical Columns
-numerical_cols = ["price", "wheelbase", "carlength", "carwidth",
+numerical_cols = ["price", "carlength","carheight", "carwidth",
                   "curbweight", "enginesize", "horsepower", 
-                  "citympg", "highwaympg"]
+                  "citympg", "highwaympg", "wheelbase", "symboling"]
 
 #Filling Numerical Columns with Median
 for column in numerical_cols:
@@ -91,7 +95,7 @@ for column in numerical_cols:
 #Filter Categorical Columns
 categorical_cols = ["carname", "carbody", "drivewheel", 
                     "fueltype", "aspiration", "enginelocation", 
-                    "cylindernumber", "enginetype"]
+                    "cylindernumber", "enginetype", "doornumber"]
 
 #Filling Categorical Columns with Mode (index at 0)
 for column in categorical_cols:
@@ -109,4 +113,51 @@ print(car_pricing_data.dtypes)
 selected_cols = numerical_cols + categorical_cols
 prepared_analysis_dataset = car_pricing_data[selected_cols]
 
+#Question 2.1
 #Market Structure (Segmentation):
+
+#Engine Performance Features
+car_pricing_data["power_to_weight"] = car_pricing_data["horsepower"]/car_pricing_data["curbweight"]
+car_pricing_data["fuel_efficiency"] = (car_pricing_data["citympg"] + car_pricing_data["highwaympg"]) / 2
+
+#Vehicle Size Features 
+car_pricing_data["vehicle_size"] = car_pricing_data["carlength"] * car_pricing_data["carwidth"] * car_pricing_data["carheight"]
+
+#Market Position Features
+car_pricing_data["brand"] = car_pricing_data["carname"].str.split().str[0]
+brand_mean_price = car_pricing_data.groupby("brand")["price"].mean()
+car_pricing_data["brand_value"] = car_pricing_data["brand"].map(brand_mean_price)
+
+car_pricing_data["log_price"] = np.log(car_pricing_data["price"]) #Log to compress large price values
+
+car_pricing_data["symboling"] = (car_pricing_data["symboling"] - car_pricing_data["symboling"].mean()) / car_pricing_data["symboling"].std() #Scaling
+
+#Vehicle Design Features
+car_pricing_data["doornumber"] = car_pricing_data["doornumber"].map({
+    "one": 1, "two": 2,
+    "three": 3, "four": 4,
+    "five": 5, "six": 6,
+    "seven": 7, "eight": 8,
+    "nine": 9, "ten": 10 })
+
+#Dummy Encoding (Catergorical Values)
+car_pricing_data = pd.get_dummies(car_pricing_data, columns=["fueltype", "aspiration", "carbody", "drivewheel", "enginelocation"], drop_first=True)
+
+#Dropping Variables For Cleaner Clustering 
+clustering_data = car_pricing_data.drop(columns=["carname", "price","curbweight", "enginetype",
+                                                    "cylindernumber", "fuelsystem", "brand", "horsepower",
+                                                    "citympg", "highwaympg", "doornumber", "wheelbase",
+                                                    "carwidth", "carlength", "carheight", "boreratio",
+                                                    "stroke", "compressionratio", "peakrpm"])
+
+#Controlled Scaling so that variable dimensions are equal
+scaler = StandardScaler()
+scaled_clustering_data = pd.DataFrame(scaler.fit_transform(clustering_data), columns=clustering_data.columns)
+
+#Use K Means to Cluster Data
+kmeans = KMeans(n_clusters = 3, random_state = 42, n_init = 10)
+car_pricing_data["cluster"] = kmeans.fit_predict(scaled_clustering_data)
+
+#Checking Clusters
+print(car_pricing_data["cluster"].value_counts())
+
