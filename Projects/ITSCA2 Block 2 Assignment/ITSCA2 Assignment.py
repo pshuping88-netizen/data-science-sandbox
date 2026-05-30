@@ -154,10 +154,24 @@ clustering_data = car_pricing_data.drop(columns=["carname", "price","curbweight"
 scaler = StandardScaler()
 scaled_clustering_data = pd.DataFrame(scaler.fit_transform(clustering_data), columns=clustering_data.columns)
 
-#Use K Means to Cluster Data
+#Use K Means to Cluster Data (Unsupervised Model)
 kmeans = KMeans(n_clusters = 3, random_state = 42, n_init = 10)
 car_pricing_data["cluster"] = kmeans.fit_predict(scaled_clustering_data)
 
-#Checking Clusters
+#Checking Model Output
 print(car_pricing_data["cluster"].value_counts())
 
+#Cluster Profiling
+print("Cluster 0")
+print(car_pricing_data[car_pricing_data["cluster"] == 0].head(10))
+print("Cluster 1")
+print(car_pricing_data[car_pricing_data["cluster"] == 1].head(10))
+print("Cluster2")
+print(car_pricing_data[car_pricing_data["cluster"] == 2].head(10))
+
+#Cluster Summaries
+cluster_summaries = car_pricing_data.groupby("cluster").mean(numeric_only=True)
+print("Cluster Summaries")
+print(cluster_summaries)
+
+#Question 2.2
