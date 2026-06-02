@@ -77,7 +77,7 @@ plt.ylabel("Average Price")
 plt.grid(axis="y")
 plt.show()
 
-#Data Cleaning and Market Structure
+#Data Cleaning for Market Structure
 
 #Lowering all column headings and dropping columns
 car_pricing_data.columns = car_pricing_data.columns.str.lower()
@@ -173,5 +173,18 @@ print(car_pricing_data[car_pricing_data["cluster"] == 2].head(10))
 cluster_summaries = car_pricing_data.groupby("cluster").mean(numeric_only=True)
 print("Cluster Summaries")
 print(cluster_summaries)
+
+#Visualizing the clusters (Not accurate)
+plt.figure(figsize=(10,6))
+scatter = plt.scatter(car_pricing_data["power_to_weight"], car_pricing_data["vehicle_size"], c=car_pricing_data["cluster"], cmap="tab10", alpha=0.9)
+plt.title("Cluster Segments")
+plt.xlabel("Power to Weight")
+plt.ylabel("Vehicle Size")
+
+handles, labels = scatter.legend_elements()
+plt.legend(handles, labels, title="Cluster")
+
+plt.grid(True)
+plt.show()
 
 #Question 2.2
