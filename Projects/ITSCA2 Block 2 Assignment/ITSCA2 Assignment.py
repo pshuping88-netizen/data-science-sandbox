@@ -188,3 +188,54 @@ plt.grid(True)
 plt.show()
 
 #Question 2.2
+#Get Price Quantiles
+log_price_q1= car_pricing_data["log_price"].quantile(0.25)
+log_price_q2= car_pricing_data["log_price"].quantile(0.50)
+log_price_q3= car_pricing_data["log_price"].quantile(0.75)
+
+#Functions
+def price_band(x):
+    if x <= log_price_q1:
+        return "automatic valuation"
+    elif x <= log_price_q2:
+        return "manual review"
+    elif x <= log_price_q3:
+        return "high value review"
+    else:
+        return "premium valuation"
+    
+def risk_band(x):
+    if x > 1:
+        return "high risk review"
+    elif x < -1:
+        return "low risk"
+    else:
+        return "standard risk"
+    
+def performance_band(x):
+    if x > car_pricing_data["power_to_weight"].quantile(0.75):
+        return "performance vehicle"
+    else:
+        return "standard vehicle"
+
+#Apply Business Rules
+def business_category(row):
+    if row["price_band"] == "automatic valuation" and row["risk_band"] != "high risk review" and row["performance_band"] == "standard vehicle":
+        return "auto approve"
+
+    elif row["risk_band"] == "high risk review":
+        return "manual - high risk review"
+
+    elif row["price_band"] == "premium valuation" or row["performance_band"] == "performance vehicle":
+        return "manual - high value review"
+
+    else:
+        return "standard manual review"
+
+#Apply Functions
+car_pricing_data["price_band"] = car_pricing_data["log_price"].apply(price_band)
+car_pricing_data["risk_band"] = car_pricing_data["symboling"].apply(risk_band)
+car_pricing_data["performance_band"] = car_pricing_data["power_to_weight"].apply(performance_band)
+
+#Applying Business Rule Function
+car_pricing_data["business_category"] = car_pricing_data.apply(business_category, axis=1)
