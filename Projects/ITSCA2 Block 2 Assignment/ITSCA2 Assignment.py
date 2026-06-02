@@ -2,9 +2,17 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
+from sklearn.neighbors import KNeighborsRegressor
+
+from sklearn.ensemble import RandomForestRegressor
 
 #Exploratory Data Analysis (Question 1.3)
 
@@ -239,3 +247,56 @@ car_pricing_data["performance_band"] = car_pricing_data["power_to_weight"].apply
 
 #Applying Business Rule Function
 car_pricing_data["business_category"] = car_pricing_data.apply(business_category, axis=1)
+
+#Question 3.1
+#Baseline Model (Linear Regression)
+X = scaled_clustering_data.drop(columns=["log_price"]) #Data
+y = car_pricing_data["log_price"] #Target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size= 0.20, random_state= 42 )
+
+linear_model = LinearRegression()
+linear_model.fit(X_train, y_train)
+
+linear_y_pred = linear_model.predict(X_test)
+
+#Evaluate Model Performance
+rmse_linear = np.sqrt(mean_squared_error(y_test, linear_y_pred))
+mae_linear = mean_absolute_error(y_test, linear_y_pred)
+r2_linear = r2_score(y_test, linear_y_pred)
+
+
+print(f"Linear Regression RMSE: {rmse_linear:,.2}")
+print(f"Linear Regression MAE: {mae_linear:,.2}")
+print(f"Linear Regression R2: {r2_linear:,.2}")
+
+#Modelling Approach 2 (K Nearest Neighbour)
+#(Model uses same data as Linear)
+knn_model = KNeighborsRegressor(n_neighbors=5)
+knn_model.fit(X_train, y_train)
+
+knn_y_pred = knn_model.predict(X_test)
+
+#Evaluate Model Performance
+rmse_knn = np.sqrt(mean_squared_error(y_test, knn_y_pred))
+mae_knn = mean_absolute_error(y_test, knn_y_pred)
+r2_knn = r2_score(y_test, knn_y_pred)
+
+print(f"K-Nearest Neighbour RMSE: {rmse_knn:,.2}")
+print(f"K-Nearest Neighbour MAE: {mae_knn:,.2}")
+print(f"K-Nearest Neighbour R2: {r2_knn:,.2}")
+
+#Modelling Approach 3 (Random Forest)
+random_forest_model = RandomForestRegressor(n_estimators= 100, random_state= 42)
+random_forest_model.fit(X_train, y_train)
+
+rf_y_pred = random_forest_model.predict(X_test)
+
+rmse_rf = np.sqrt(mean_squared_error(y_test, rf_y_pred))
+mae_rf = mean_absolute_error(y_test, rf_y_pred)
+r2_rf = r2_score(y_test, rf_y_pred)
+
+print(f"Random Forest RMSE: {rmse_rf:,.2}")
+print(f"Random Forest MAE: {mae_rf:,.2}")
+print(f"Random Forest R2: {r2_rf:,.2}")
