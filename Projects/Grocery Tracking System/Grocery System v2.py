@@ -2,7 +2,8 @@
 #import modules
 import json
 import pandas as pd
-from datetime import date #(Only imports date function)
+from datetime import date
+import datetime 
 
 #Try to open file if not found, creates new file 
 try:
@@ -55,6 +56,69 @@ def view_items(data_list):
     grocery_dataframe = pd.DataFrame(data_list)
     print(grocery_dataframe)
 
+def convert_to_datetime(data_list):
+    for item in data_list:
+        value = item["Date"]
+
+        if isinstance(value, datetime.date):
+            continue
+
+        item["Date"] = datetime.datetime.strptime(item["Date"], "%Y-%m-%d").date()
+
+    return data_list
+
+def current_month_filter(data_list):
+    month_data = [] 
+
+    today = datetime.date.today()
+    for item in data_list:
+        item_date = item["Date"]
+
+        if item_date.year == today.year and item_date.month == today.month:
+            month_data.append(item)
+
+    return month_data
+
+def last_month_filter(data_list):
+    month_data = []
+
+    today = datetime.date.today()
+    year = today.year
+    month = today.month - 1
+
+    if month == 0:
+        month = 12
+        year -= 1
+    for item in data_list:
+        item_date = item["Date"]
+
+        if item_date.year == year and item_date.month == month:
+            month_data.append(item)
+
+    return month_data
+
+def current_week_filter(data_list):
+    week_data = []
+
+    today = datetime.date.today()
+    current_week = today.isocalendar().week
+    current_year = today.isocalendar().year
+
+
+    for item in data_list:
+        item_date = item["Date"]
+        item_week = item_date.isocalendar().week
+        item_year = item_date.isocalendar().year
+
+        if item_year == current_year and item_week == current_week:
+            week_data.append(item)
+    
+    return week_data
+
+#Convert date back to date object
+grocery_list = convert_to_datetime(grocery_list)
+
+
 #Main Loop
 while True:
     #Display CLI menu
@@ -103,12 +167,12 @@ while True:
                 json.dump(grocery_list, file, indent = 4)
             print("Data successfully saved to Memory!")
 
+            #Convert Date item strings to date objects
+            grocery_list = convert_to_datetime(grocery_list)
+
         case 2:
             view_items(grocery_list)
         case 3:
-<<<<<<< Updated upstream
-            print("View Analytics")
-=======
             #View Analytics Menu
             print("------ View Analytics -----\n1. Total Spend\n2. Spend By Category\n3. Spend By Store")
             #User choice
@@ -119,10 +183,34 @@ while True:
                     total_spend = 0 #(Initialize)
                     for item in grocery_list:
                         total_spend = total_spend + item["Price"] * item["Quantity"]
-                    print(f"Overall: R{total_spend:,.2f}")
+                    print(f"Lifetime Spend: R{total_spend:,.2f}")
                     
+                    #Current Month Filter
+                    current_month_data = current_month_filter(grocery_list)
+                    current_month_spend = 0 #(Initialize)
+
+                    for item in current_month_data:
+                        current_month_spend = current_month_spend + item["Price"] * item["Quantity"]
+                    print(f"This Month: R{current_month_spend:,.2f}")
+                    
+                    #Last Month Filter
+                    last_month_data = last_month_filter(grocery_list)
+                    last_month_spend = 0 #(Initialize)
+
+                    for item in last_month_data:
+                        last_month_spend = last_month_spend + item["Price"] * item["Quantity"]
+                    print(f"Last Month: R{last_month_spend:,.2f}")
+
+                    #Current Week Filter
+                    current_week_data = current_week_filter(grocery_list)
+                    current_week_spend = 0 #(Initialize)
+
+                    for item in current_week_data:
+                        current_week_spend = current_week_spend + item["Price"] * item["Quantity"]
+                    print(f"This Week: R{current_week_spend:,.2f}")
+
                 case 2: 
-                    category_totals = {} #(Initialize)
+                    category_totals = {} #(Initialize) {category: accumulated spend}
                     for category in categories:
                         category_totals[category] = 0
 
@@ -134,7 +222,7 @@ while True:
                         print(f"{category}, R {category_spend:,.2f}")
 
                 case 3:
-                    store_totals = {} #(Initialize)
+                    store_totals = {} #(Initialize) #{store: accumulated spend}
                     for store in stores:
                         store_totals[store] = 0
                     
@@ -148,7 +236,6 @@ while True:
                 case _:
                       print("Wrong Value entered")
             
->>>>>>> Stashed changes
         case 4:
             print("View Insights")
         case 5:
