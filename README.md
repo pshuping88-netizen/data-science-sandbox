@@ -1,38 +1,48 @@
-# python-learning-log
+# data-science-sandbox
 
-Python fundamentals and project-based progression toward data science and structured data analysis.
+A workspace for building, testing, and iterating Python-based data systems and analytical projects.
+
 
 ## Overview
-This repository documents a structured learning path in Python, with emphasis on building core programming skills and applying them to data-driven problems.
 
-The focus is on transforming raw structured data into computed insights using Python.
+This repository contains ongoing projects, coursework implementations (conceptual and applied) and system prototypes developed through hands on Python development.
 
-## Structure
+My focus is on applying structured thinking to real problems involving data processing, data analysis, system design and analytical modelling.
 
-### Fundamentals
-Practice-based exercises focused on core programming and data handling patterns:
-- Variables, syntax, and control flow
-- Loops and conditional logic
-- Lists and dictionaries (structured data handling)
-- Aggregation and computed metrics
-- Structured output formatting and reporting patterns
+This is not a tutorial or notes repository — it is a build environment.
 
-### Projects
-Applied implementations using Python:
-- Grocery System (data handling, iteration, and basic system logic)
+## What This Repository Is Used For
+- Building small to medium Python systems
+- Implementing academic and applied data science assignments
+- Experimenting with data structures, algorithms and workflows
+- Developing prototypes before production level restructuring
+- Iterative improvement of code quality and system design
 
-## Current Focus
-- Strengthening structured problem-solving with Python
-- Improving code clarity and consistency
-- Building repeatable data processing patterns
-- Transitioning from basic scripts to modular thinking
+## Current Projects
 
-## Next Steps
-- Refactor existing work into reusable functions
-- Introduce modular project structure
-- Expand into data-centric mini-projects
-- Improve version control discipline (clear commits, iterative development)
+### Grocery System
+
+A personal spending and grocery tracking system focused on:
+
+- Data pipeline structure
+- Structured transaction processing
+- Categorisation of spending behaviour
+- Summary statistics and reporting outputs
+
+### ITSCA2 Assignment — Vehicle Valuation Model (Mutuka Automotive)
+
+A data science assignment focused on building a vehicle valuation model.
+
+Key areas include:
+
+- Data cleaning and preprocessing
+- Feature engineering for vehicle attributes
+- Exploratory data analysis (EDA)
+- Predictive modelling for vehicle pricing/valuation
+- Evaluation of model performance and assumptions
 
 ## Tools
+
 - Python
-- Git & GitHub
+- Git
+- GitHub
