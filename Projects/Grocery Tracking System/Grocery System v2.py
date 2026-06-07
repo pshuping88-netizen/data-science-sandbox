@@ -115,10 +115,6 @@ def current_week_filter(data_list):
     
     return week_data
 
-#Convert date back to date object
-grocery_list = convert_to_datetime(grocery_list)
-
-
 #Main Loop
 while True:
     #Display CLI menu
@@ -167,12 +163,12 @@ while True:
                 json.dump(grocery_list, file, indent = 4)
             print("Data successfully saved to Memory!")
 
-            #Convert Date item strings to date objects
-            grocery_list = convert_to_datetime(grocery_list)
-
         case 2:
             view_items(grocery_list)
         case 3:
+            #Convert data to date object
+            analytic_grocery_list = convert_to_datetime(grocery_list)
+
             #View Analytics Menu
             print("------ View Analytics -----\n1. Total Spend\n2. Spend By Category\n3. Spend By Store")
             #User choice
@@ -181,7 +177,7 @@ while True:
             match user_choice2:
                 case 1: 
                     total_spend = 0 #(Initialize)
-                    for item in grocery_list:
+                    for item in analytic_grocery_list:
                         total_spend = total_spend + item["Price"] * item["Quantity"]
                     print(f"Lifetime Spend: R{total_spend:,.2f}")
                     
@@ -214,7 +210,7 @@ while True:
                     for category in categories:
                         category_totals[category] = 0
 
-                    for item in grocery_list:
+                    for item in analytic_grocery_list:
                         item_spend = item["Price"] * item["Quantity"]
                         category_totals[item["Category"]] += item_spend
 
@@ -226,7 +222,7 @@ while True:
                     for store in stores:
                         store_totals[store] = 0
                     
-                    for item in grocery_list:
+                    for item in analytic_grocery_list:
                         item_spend = item["Price"] * item["Quantity"]
                         store_totals[item["Store"]] += item_spend
 

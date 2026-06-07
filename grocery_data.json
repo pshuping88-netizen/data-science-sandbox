@@ -246,5 +246,21 @@
         "Date": "2026-05-18",
         "Category": "Protein",
         "Store": "Spar"
+    },
+    {
+        "Item Name": "Sugar",
+        "Price": 68.0,
+        "Quantity": 1,
+        "Date": "2026-06-07",
+        "Category": "Staple",
+        "Store": "Other"
+    },
+    {
+        "Item Name": "Coffee",
+        "Price": 78.0,
+        "Quantity": 1,
+        "Date": "2026-06-07",
+        "Category": "Staple",
+        "Store": "Other"
     }
 ]
