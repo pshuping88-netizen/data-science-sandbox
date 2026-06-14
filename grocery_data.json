@@ -342,5 +342,109 @@
         "Date": "2026-06-03",
         "Category": "Staple",
         "Store": "Checkers"
+    },
+    {
+        "Item Name": "Beans",
+        "Price": 17.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Protein",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Canned Pilchard",
+        "Price": 25.99,
+        "Quantity": 2,
+        "Date": "2026-06-09",
+        "Category": "Protein",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Beef Mince",
+        "Price": 42.64,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Protein",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Paprika Spice",
+        "Price": 29.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Staple",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Oats",
+        "Price": 46.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Staple",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Bbq Sauce",
+        "Price": 37.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Staple",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Amazi",
+        "Price": 22.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Drinks",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Chicken (Drum & Thigh)",
+        "Price": 74.55,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Protein",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Wors",
+        "Price": 37.62,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Protein",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Macaroni",
+        "Price": 19.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Staple",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Milk",
+        "Price": 21.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Drinks",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "White Bread",
+        "Price": 21.99,
+        "Quantity": 1,
+        "Date": "2026-06-09",
+        "Category": "Staple",
+        "Store": "Checkers"
+    },
+    {
+        "Item Name": "Black Pepper",
+        "Price": 3.99,
+        "Quantity": 2,
+        "Date": "2026-06-09",
+        "Category": "Staple",
+        "Store": "Checkers"
     }
 ]
