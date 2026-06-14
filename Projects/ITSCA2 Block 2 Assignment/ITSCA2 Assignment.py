@@ -1,6 +1,18 @@
 #Import Modules
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
+from sklearn.neighbors import KNeighborsRegressor
+
+from sklearn.ensemble import RandomForestRegressor
 
 #Exploratory Data Analysis (Question 1.3)
 
@@ -73,16 +85,16 @@ plt.ylabel("Average Price")
 plt.grid(axis="y")
 plt.show()
 
-#Data Cleaning and Market Structure
+#Data Cleaning for Market Structure
 
 #Lowering all column headings and dropping columns
 car_pricing_data.columns = car_pricing_data.columns.str.lower()
 car_pricing_data = car_pricing_data.drop("car_id", axis=1)
 
 #Filter Numerical Columns
-numerical_cols = ["price", "wheelbase", "carlength", "carwidth",
+numerical_cols = ["price", "carlength","carheight", "carwidth",
                   "curbweight", "enginesize", "horsepower", 
-                  "citympg", "highwaympg"]
+                  "citympg", "highwaympg", "wheelbase", "symboling"]
 
 #Filling Numerical Columns with Median
 for column in numerical_cols:
@@ -91,7 +103,7 @@ for column in numerical_cols:
 #Filter Categorical Columns
 categorical_cols = ["carname", "carbody", "drivewheel", 
                     "fueltype", "aspiration", "enginelocation", 
-                    "cylindernumber", "enginetype"]
+                    "cylindernumber", "enginetype", "doornumber"]
 
 #Filling Categorical Columns with Mode (index at 0)
 for column in categorical_cols:
@@ -109,4 +121,182 @@ print(car_pricing_data.dtypes)
 selected_cols = numerical_cols + categorical_cols
 prepared_analysis_dataset = car_pricing_data[selected_cols]
 
+#Question 2.1
 #Market Structure (Segmentation):
+
+#Engine Performance Features
+car_pricing_data["power_to_weight"] = car_pricing_data["horsepower"]/car_pricing_data["curbweight"]
+car_pricing_data["fuel_efficiency"] = (car_pricing_data["citympg"] + car_pricing_data["highwaympg"]) / 2
+
+#Vehicle Size Features 
+car_pricing_data["vehicle_size"] = car_pricing_data["carlength"] * car_pricing_data["carwidth"] * car_pricing_data["carheight"]
+
+#Market Position Features
+car_pricing_data["brand"] = car_pricing_data["carname"].str.split().str[0]
+brand_mean_price = car_pricing_data.groupby("brand")["price"].mean()
+car_pricing_data["brand_value"] = car_pricing_data["brand"].map(brand_mean_price)
+
+car_pricing_data["log_price"] = np.log(car_pricing_data["price"]) #Log to compress large price values
+
+car_pricing_data["symboling"] = (car_pricing_data["symboling"] - car_pricing_data["symboling"].mean()) / car_pricing_data["symboling"].std() #Scaling
+
+#Vehicle Design Features
+car_pricing_data["doornumber"] = car_pricing_data["doornumber"].map({
+    "one": 1, "two": 2,
+    "three": 3, "four": 4,
+    "five": 5, "six": 6,
+    "seven": 7, "eight": 8,
+    "nine": 9, "ten": 10 })
+
+#Dummy Encoding (Catergorical Values)
+car_pricing_data = pd.get_dummies(car_pricing_data, columns=["fueltype", "aspiration", "carbody", "drivewheel", "enginelocation"], drop_first=True)
+
+#Dropping Variables For Cleaner Clustering 
+clustering_data = car_pricing_data.drop(columns=["carname", "price","curbweight", "enginetype",
+                                                    "cylindernumber", "fuelsystem", "brand", "horsepower",
+                                                    "citympg", "highwaympg", "doornumber", "wheelbase",
+                                                    "carwidth", "carlength", "carheight", "boreratio",
+                                                    "stroke", "compressionratio", "peakrpm"])
+
+#Controlled Scaling so that variable dimensions are equal
+scaler = StandardScaler()
+scaled_clustering_data = pd.DataFrame(scaler.fit_transform(clustering_data), columns=clustering_data.columns)
+
+#Use K Means to Cluster Data (Unsupervised Model)
+kmeans = KMeans(n_clusters = 3, random_state = 42, n_init = 10)
+car_pricing_data["cluster"] = kmeans.fit_predict(scaled_clustering_data)
+
+#Checking Model Output
+print(car_pricing_data["cluster"].value_counts())
+
+#Cluster Profiling
+print("Cluster 0")
+print(car_pricing_data[car_pricing_data["cluster"] == 0].head(10))
+print("Cluster 1")
+print(car_pricing_data[car_pricing_data["cluster"] == 1].head(10))
+print("Cluster2")
+print(car_pricing_data[car_pricing_data["cluster"] == 2].head(10))
+
+#Cluster Summaries
+cluster_summaries = car_pricing_data.groupby("cluster").mean(numeric_only=True)
+print("Cluster Summaries")
+print(cluster_summaries)
+
+#Visualizing the clusters (Not accurate)
+plt.figure(figsize=(10,6))
+scatter = plt.scatter(car_pricing_data["power_to_weight"], car_pricing_data["vehicle_size"], c=car_pricing_data["cluster"], cmap="tab10", alpha=0.9)
+plt.title("Cluster Segments")
+plt.xlabel("Power to Weight")
+plt.ylabel("Vehicle Size")
+
+handles, labels = scatter.legend_elements()
+plt.legend(handles, labels, title="Cluster")
+
+plt.grid(True)
+plt.show()
+
+#Question 2.2
+#Get Price Quantiles
+log_price_q1= car_pricing_data["log_price"].quantile(0.25)
+log_price_q2= car_pricing_data["log_price"].quantile(0.50)
+log_price_q3= car_pricing_data["log_price"].quantile(0.75)
+
+#Functions
+def price_band(x):
+    if x <= log_price_q1:
+        return "automatic valuation"
+    elif x <= log_price_q2:
+        return "manual review"
+    elif x <= log_price_q3:
+        return "high value review"
+    else:
+        return "premium valuation"
+    
+def risk_band(x):
+    if x > 1:
+        return "high risk review"
+    elif x < -1:
+        return "low risk"
+    else:
+        return "standard risk"
+    
+def performance_band(x):
+    if x > car_pricing_data["power_to_weight"].quantile(0.75):
+        return "performance vehicle"
+    else:
+        return "standard vehicle"
+
+#Apply Business Rules
+def business_category(row):
+    if row["price_band"] == "automatic valuation" and row["risk_band"] != "high risk review" and row["performance_band"] == "standard vehicle":
+        return "auto approve"
+
+    elif row["risk_band"] == "high risk review":
+        return "manual - high risk review"
+
+    elif row["price_band"] == "premium valuation" or row["performance_band"] == "performance vehicle":
+        return "manual - high value review"
+
+    else:
+        return "standard manual review"
+
+#Apply Functions
+car_pricing_data["price_band"] = car_pricing_data["log_price"].apply(price_band)
+car_pricing_data["risk_band"] = car_pricing_data["symboling"].apply(risk_band)
+car_pricing_data["performance_band"] = car_pricing_data["power_to_weight"].apply(performance_band)
+
+#Applying Business Rule Function
+car_pricing_data["business_category"] = car_pricing_data.apply(business_category, axis=1)
+
+#Question 3.1
+#Baseline Model (Linear Regression)
+X = scaled_clustering_data.drop(columns=["log_price"]) #Data
+y = car_pricing_data["log_price"] #Target
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size= 0.20, random_state= 42 )
+
+linear_model = LinearRegression()
+linear_model.fit(X_train, y_train)
+
+linear_y_pred = linear_model.predict(X_test)
+
+#Evaluate Model Performance
+rmse_linear = np.sqrt(mean_squared_error(y_test, linear_y_pred))
+mae_linear = mean_absolute_error(y_test, linear_y_pred)
+r2_linear = r2_score(y_test, linear_y_pred)
+
+
+print(f"Linear Regression RMSE: {rmse_linear:,.2}")
+print(f"Linear Regression MAE: {mae_linear:,.2}")
+print(f"Linear Regression R2: {r2_linear:,.2}")
+
+#Modelling Approach 2 (K Nearest Neighbour)
+#(Model uses same data as Linear)
+knn_model = KNeighborsRegressor(n_neighbors=5)
+knn_model.fit(X_train, y_train)
+
+knn_y_pred = knn_model.predict(X_test)
+
+#Evaluate Model Performance
+rmse_knn = np.sqrt(mean_squared_error(y_test, knn_y_pred))
+mae_knn = mean_absolute_error(y_test, knn_y_pred)
+r2_knn = r2_score(y_test, knn_y_pred)
+
+print(f"K-Nearest Neighbour RMSE: {rmse_knn:,.2}")
+print(f"K-Nearest Neighbour MAE: {mae_knn:,.2}")
+print(f"K-Nearest Neighbour R2: {r2_knn:,.2}")
+
+#Modelling Approach 3 (Random Forest)
+random_forest_model = RandomForestRegressor(n_estimators= 100, random_state= 42)
+random_forest_model.fit(X_train, y_train)
+
+rf_y_pred = random_forest_model.predict(X_test)
+
+rmse_rf = np.sqrt(mean_squared_error(y_test, rf_y_pred))
+mae_rf = mean_absolute_error(y_test, rf_y_pred)
+r2_rf = r2_score(y_test, rf_y_pred)
+
+print(f"Random Forest RMSE: {rmse_rf:,.2}")
+print(f"Random Forest MAE: {mae_rf:,.2}")
+print(f"Random Forest R2: {r2_rf:,.2}")
