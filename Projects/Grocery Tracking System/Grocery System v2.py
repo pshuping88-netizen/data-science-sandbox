@@ -56,23 +56,15 @@ def view_items(data_list):
     grocery_dataframe = pd.DataFrame(data_list)
     print(grocery_dataframe)
 
-def convert_to_datetime(data_list):
-    for item in data_list:
-        value = item["Date"]
-
-        if isinstance(value, datetime.date):
-            continue
-
-        item["Date"] = datetime.datetime.strptime(item["Date"], "%Y-%m-%d").date()
-
-    return data_list
-
 def current_month_filter(data_list):
     month_data = [] 
 
     today = datetime.date.today()
     for item in data_list:
-        item_date = item["Date"]
+        if "Date" not in item:
+            continue
+
+        item_date = datetime.datetime.strptime(item["Date"], "%Y-%m-%d").date()
 
         if item_date.year == today.year and item_date.month == today.month:
             month_data.append(item)
@@ -90,7 +82,10 @@ def last_month_filter(data_list):
         month = 12
         year -= 1
     for item in data_list:
-        item_date = item["Date"]
+        if "Date" not in item:
+            continue
+
+        item_date = datetime.datetime.strptime(item["Date"], "%Y-%m-%d").date()
 
         if item_date.year == year and item_date.month == month:
             month_data.append(item)
@@ -104,9 +99,11 @@ def current_week_filter(data_list):
     current_week = today.isocalendar().week
     current_year = today.isocalendar().year
 
-
     for item in data_list:
-        item_date = item["Date"]
+        if "Date" not in item:
+            continue
+
+        item_date = datetime.datetime.strptime(item["Date"], "%Y-%m-%d").date()
         item_week = item_date.isocalendar().week
         item_year = item_date.isocalendar().year
 
@@ -166,9 +163,6 @@ while True:
         case 2:
             view_items(grocery_list)
         case 3:
-            #Convert data to date object
-            analytic_grocery_list = convert_to_datetime(grocery_list)
-
             #View Analytics Menu
             print("------ View Analytics -----\n1. Total Spend\n2. Spend By Category\n3. Spend By Store")
             #User choice
@@ -177,7 +171,7 @@ while True:
             match user_choice2:
                 case 1: 
                     total_spend = 0 #(Initialize)
-                    for item in analytic_grocery_list:
+                    for item in grocery_list:
                         total_spend = total_spend + item["Price"] * item["Quantity"]
                     print(f"Lifetime Spend: R{total_spend:,.2f}")
                     
@@ -210,7 +204,7 @@ while True:
                     for category in categories:
                         category_totals[category] = 0
 
-                    for item in analytic_grocery_list:
+                    for item in grocery_list:
                         item_spend = item["Price"] * item["Quantity"]
                         category_totals[item["Category"]] += item_spend
 
@@ -222,7 +216,7 @@ while True:
                     for store in stores:
                         store_totals[store] = 0
                     
-                    for item in analytic_grocery_list:
+                    for item in grocery_list:
                         item_spend = item["Price"] * item["Quantity"]
                         store_totals[item["Store"]] += item_spend
 
