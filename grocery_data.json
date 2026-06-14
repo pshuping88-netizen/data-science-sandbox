@@ -100,7 +100,7 @@
         "Price": 44.99,
         "Quantity": 1,
         "Date": "2026-05-05",
-        "Category": "Vegtables",
+        "Category": "Produce",
         "Store": "PicknPay"
     },
     {
@@ -108,7 +108,7 @@
         "Price": 14.99,
         "Quantity": 2,
         "Date": "2026-05-05",
-        "Category": "Vegtables",
+        "Category": "Produce",
         "Store": "PicknPay"
     },
     {
