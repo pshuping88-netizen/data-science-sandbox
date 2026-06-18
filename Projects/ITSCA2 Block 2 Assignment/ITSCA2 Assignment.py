@@ -306,7 +306,7 @@ print(f"K-Nearest Neighbour RMSE: {rmse_knn:,.2}")
 print(f"K-Nearest Neighbour MAE: {mae_knn:,.2}")
 print(f"K-Nearest Neighbour R2: {r2_knn:,.2}")
 
-#Modelling Approach 3 (Random Forest)
+#Modelling Approach 3 (Random Forest) - Final Model
 random_forest_model = RandomForestRegressor(n_estimators= 100, random_state= 42)
 random_forest_model.fit(X_train, y_train)
 

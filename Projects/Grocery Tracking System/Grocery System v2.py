@@ -115,7 +115,7 @@ def current_week_filter(data_list):
 #Main Loop
 while True:
     #Display CLI menu
-    print(f"----- GROCERY DATA TRACKER -----\n1. Add Item\n2. View Items\n3. View Analytics\n4. View Insights\n5. Exit Tracker")
+    print(f"----- GROCERY DATA TRACKER -----\n1. Add Item\n2. View Items\n3. Monthly Analytics\n4. View Insights\n5. Exit Tracker")
 
     #User Choice
     user_choice = get_valid_num("Enter Number: ",int,1,5)
@@ -131,7 +131,7 @@ while True:
             item_quantity = get_valid_num("Enter item Quantity: ",int,1,100)
 
             #item Category
-            print("Categories: \n")
+            print("Categories:\n")
             for i in range(len(categories)): 
                 print(f"{i+1}.{categories[i]}")
         
@@ -140,7 +140,7 @@ while True:
             item_category = categories[category_input]
 
             #item Store
-            print("Stores: \n")
+            print("Stores:\n")
             for i in range(len(stores)):
                 print(f"{i+1}.{stores[i]}")
 
@@ -164,67 +164,62 @@ while True:
             view_items(grocery_list)
         case 3:
             #View Analytics Menu
-            print("------ View Analytics -----\n1. Total Spend\n2. Spend By Category\n3. Spend By Store")
-            #User choice
-            user_choice2 = get_valid_num("Enter number: ",int,1,3)
-
-            match user_choice2:
-                case 1: 
-                    total_spend = 0 #(Initialize)
-                    for item in grocery_list:
-                        total_spend = total_spend + item["Price"] * item["Quantity"]
-                    print(f"Lifetime Spend: R{total_spend:,.2f}")
+            print("===== MONTHLY ANALYTICS =====\n")
+            #Liftime spend
+            total_spend = 0 #(Initialize)
+            for item in grocery_list:
+                 total_spend = total_spend + item["Price"] * item["Quantity"]
+            print(f"Lifetime Spend: R{total_spend:,.2f}")
                     
-                    #Current Month Filter
-                    current_month_data = current_month_filter(grocery_list)
-                    current_month_spend = 0 #(Initialize)
+            #Last Month Filter
+            last_month_data = last_month_filter(grocery_list)
+            last_month_spend = 0 #(Initialize)
 
-                    for item in current_month_data:
-                        current_month_spend = current_month_spend + item["Price"] * item["Quantity"]
-                    print(f"This Month: R{current_month_spend:,.2f}")
+            for item in last_month_data:
+                last_month_spend = last_month_spend + item["Price"] * item["Quantity"]
+            print(f"Last Month: R{last_month_spend:,.2f}")
+
+            #Current Month Filter
+            current_month_data = current_month_filter(grocery_list)
+            current_month_spend = 0 #(Initialize)
+
+            for item in current_month_data:
+                current_month_spend = current_month_spend + item["Price"] * item["Quantity"]
+            print(f"This Month: R{current_month_spend:,.2f}")
+
+            #Current Week Filter
+            current_week_data = current_week_filter(grocery_list)
+            current_week_spend = 0 #(Initialize)
+
+            for item in current_week_data:
+                current_week_spend = current_week_spend + item["Price"] * item["Quantity"]
+            print(f"This Week: R{current_week_spend:,.2f}")
+
+             
+            category_totals = {} #(Initialize) {category: accumulated spend}
+            for category in categories:
+                category_totals[category] = 0
+
+            for item in grocery_list:
+                item_spend = item["Price"] * item["Quantity"]
+                category_totals[item["Category"]] += item_spend
+
+            for category, category_spend in category_totals.items():
+                print(f"{category}, R {category_spend:,.2f}")
+
+
+            store_totals = {} #(Initialize) #{store: accumulated spend}
+            for store in stores:
+                store_totals[store] = 0
                     
-                    #Last Month Filter
-                    last_month_data = last_month_filter(grocery_list)
-                    last_month_spend = 0 #(Initialize)
+            for item in grocery_list:
+                item_spend = item["Price"] * item["Quantity"]
+                store_totals[item["Store"]] += item_spend
 
-                    for item in last_month_data:
-                        last_month_spend = last_month_spend + item["Price"] * item["Quantity"]
-                    print(f"Last Month: R{last_month_spend:,.2f}")
+            for store, store_spend in store_totals.items():
+                print(f"{store}, R {store_spend:,.2f}")
 
-                    #Current Week Filter
-                    current_week_data = current_week_filter(grocery_list)
-                    current_week_spend = 0 #(Initialize)
-
-                    for item in current_week_data:
-                        current_week_spend = current_week_spend + item["Price"] * item["Quantity"]
-                    print(f"This Week: R{current_week_spend:,.2f}")
-
-                case 2: 
-                    category_totals = {} #(Initialize) {category: accumulated spend}
-                    for category in categories:
-                        category_totals[category] = 0
-
-                    for item in grocery_list:
-                        item_spend = item["Price"] * item["Quantity"]
-                        category_totals[item["Category"]] += item_spend
-
-                    for category, category_spend in category_totals.items():
-                        print(f"{category}, R {category_spend:,.2f}")
-
-                case 3:
-                    store_totals = {} #(Initialize) #{store: accumulated spend}
-                    for store in stores:
-                        store_totals[store] = 0
-                    
-                    for item in grocery_list:
-                        item_spend = item["Price"] * item["Quantity"]
-                        store_totals[item["Store"]] += item_spend
-
-                    for store, store_spend in store_totals.items():
-                        print(f"{store}, R {store_spend:,.2f}")
-
-                case _:
-                      print("Wrong Value entered")
+            print("== == == == == == ==\n")
             
         case 4:
             print("View Insights")
