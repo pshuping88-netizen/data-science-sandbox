@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 
+from sklearn.decomposition import PCA
+
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
@@ -193,6 +195,23 @@ handles, labels = scatter.legend_elements()
 plt.legend(handles, labels, title="Cluster")
 
 plt.grid(True)
+plt.show()
+
+#Visualizing the clusters using PCA
+pca  = PCA(n_components = 2, random_state=42)
+X_pca = pca.fit_transform(scaled_clustering_data)
+
+pca_df = pd.DataFrame(X_pca, columns=["PC1", "PC2"])
+pca_df["cluster"] = car_pricing_data["cluster"]
+
+plt.figure(figsize=(10,6))
+scatter = plt.scatter(pca_df["PC1"], pca_df["PC2"], c=pca_df["cluster"], cmap="tab10", alpha=0.9)
+plt.title("Vehicle Clusters in PCA space")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.grid(True)
+handles, labels = scatter.legend_elements()
+plt.legend(handles, labels, title="Cluster")
 plt.show()
 
 #Question 2.2
