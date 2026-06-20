@@ -265,7 +265,6 @@ while True:
             print(f"Top Category: {report['top_category']} ({report['top_category_share']:.1f}% of this months spend)")
             print(f"Top Store: {report['top_store']} ({report['top_store_share']:.1f}% of this months spend)")
 
-
             print("== == == == == == ==\n")
             
         case 4:
