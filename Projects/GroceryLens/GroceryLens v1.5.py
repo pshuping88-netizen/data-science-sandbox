@@ -46,7 +46,7 @@ def get_valid_num(text,number_type,min_val,max_val):
             if final_num <= max_val and final_num >= min_val:
                     return final_num
             else:
-                    print("Value does not meet criteria! Enter a value that meets criteria: ")
+                    print("Value does not meet criteria! Enter a value that meets criteria!")
                     continue
 
 def view_items(data_list):
@@ -237,7 +237,7 @@ while True:
             grocery_data_df = pd.DataFrame(grocery_list)
 
             report = generate_report(grocery_data_df)
-            print("===== SPENDING ANALYTICS =====")
+            print("\n===== SPENDING ANALYTICS =====")
             print("📊 MONTH PERFORMANCE")
             print(f"📅 This Month: R{report['current_month_spend']:,.2f}")
             print(f"📅 Last Month: R{report['last_month_spend']:,.2f}")

@@ -518,5 +518,93 @@
         "Date": "2026-06-18",
         "Category": "Staple",
         "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Potatoes",
+        "Price": 17.87,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Produce",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Garlic",
+        "Price": 11.52,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Produce",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "White Bread",
+        "Price": 21.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Baked Beans",
+        "Price": 17.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Spaghetti",
+        "Price": 14.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Milk",
+        "Price": 18.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Drinks",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Onion Pack",
+        "Price": 39.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Produce",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Wors",
+        "Price": 38.08,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Chicken Breast",
+        "Price": 67.97,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Rice",
+        "Price": 41.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Maize Meal",
+        "Price": 44.99,
+        "Quantity": 1,
+        "Date": "2026-06-22",
+        "Category": "Staple",
+        "Store": "Spar"
     }
 ]
