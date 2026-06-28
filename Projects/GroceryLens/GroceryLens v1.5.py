@@ -4,13 +4,21 @@ import json
 import pandas as pd
 from datetime import date
 import datetime 
+import calendar
 
-#Try to open file if not found, creates new file 
+#Load/Create Grocery Data
 try:
     with open("grocery_data.json","r") as file:
         grocery_list = json.load(file)
 except FileNotFoundError:
     grocery_list = []
+
+#Load/Create Budget Data
+try:
+    with open("grocery_budget.json", "r") as file:
+        budget_data = json.load(file)
+except FileNotFoundError:
+    budget_data = {"monthly_budget": None}
 
 #Grocery Categories
 categories = ["Staple","Protein","Produce","Snacks","Drinks","Household"]
@@ -64,8 +72,10 @@ def generate_report(df):
     #Calculate Each record's spend (Total amount)
     df["Spend"] = df["Price"] * df["Quantity"]
 
-    #Date Filters (DataFrames):
+    #Date Filters
     today = pd.Timestamp.today()
+    month_name = calendar.month_name[today.month]
+    year = today.year
 
     #Current Month
     current_month_df = df[(
@@ -102,14 +112,35 @@ def generate_report(df):
     df["Date"].dt.isocalendar().week == last_week)&
     (df["Date"].dt.isocalendar().year == last_week_year)]
 
-    # CORE METRICS
-    
+    #CORE METRICS
     total_spend = df["Spend"].sum()
 
     current_month_spend = current_month_df["Spend"].sum()
     last_month_spend = last_month_df["Spend"].sum()
     current_week_spend = current_week_df["Spend"].sum()
     last_week_spend = last_week_df["Spend"].sum()
+
+    #Budget
+    budget = get_budget()
+
+    if budget > 0:
+        budget_remaining = budget - current_month_spend
+        budget_used_pcnt = (current_month_spend / budget) * 100
+    else:
+        budget_remaining = None
+        budget_used_pcnt = None
+
+    if budget > 0:
+        if budget_used_pcnt >= 100:
+            budget_status = "Over Budget"
+        elif budget_used_pcnt >= 80:
+            budget_status = "High Usage"
+        elif budget_used_pcnt >= 50:
+            budget_status = "Moderate Usage"
+        else:
+            budget_status = "Low Usage"
+    else:
+        budget_status = "NO BUDGET"
 
     #Monthly % Change
     if last_month_spend > 0:
@@ -169,7 +200,17 @@ def generate_report(df):
         #Current Month Category / Store breakdown
         "category_spend": category_spend.to_dict(),
         "store_spend": store_spend.to_dict(),
-        
+
+        #Month & Year
+        "month_name": month_name,
+        "year": year,
+
+        #Budget
+        "budget": budget,
+        "budget_remaining": budget_remaining,
+        "budget_used_pcnt": budget_used_pcnt,
+        "budget_status": budget_status,
+
         #Lifetime Context
         "total_spend": total_spend,
 
@@ -177,21 +218,80 @@ def generate_report(df):
         "top_category": top_category,
         "top_store": top_store,
         "top_category_share": top_category_share,
-        "top_store_share": top_store_share,
+        "top_store_share": top_store_share
+ }
 
-        }
+def display_report(report):
+    print("\n" + "="*40)
+    print(f"GROCERY ANALYTICS REPORT — {report['month_name']} {report['year']}")
+    print("-"*40)
+
+    print("\nSPENDING OVERVIEW")
+    print(f"Lifetime Spend:     R{report['total_spend']:,.2f}")
+    print(f"This Month:         R{report['current_month_spend']:,.2f}")
+    print(f"Last Month:         R{report['last_month_spend']:,.2f}")
+    print(f"Trend:              {report['month_velocity_insight']} ({report['month_velocity_pcnt']:.1f}%)")
+
+    print("\nBUDGET OVERVIEW")
+    if report["budget"] > 0:
+        print(f"Monthly Budget: R{report['budget']:,.2f}")
+        print(f"Spent:          R{report['current_month_spend']:,.2f}")
+        print(f"Remaining:      R{report['budget_remaining']:,.2f}")
+        print(f"Status:         {report['budget_status']}")
+
+        #Usage % clamping
+        usage = min(max(report["budget_used_pcnt"], 0), 100)
+        print(f"Usage:          {usage:.1f}%")
+
+    else:
+        print("Monthly Budget:      Not set")
+
+    print("\nWEEKLY VIEW")
+    print(f"This Week:      R{report['current_week_spend']:,.2f}")
+    print(f"Last Week:      R{report['last_week_spend']:,.2f}")
+
+    print("\nCATEGORY - SPEND BREAKDOWN (This Month)")
+    for category, spend in report["category_spend"].items():
+        print(f"-> {category:<10} R{spend:,.2f}")
+
+    print("\nSTORE - SPEND BREAKDOWN (This Month)")
+    for store, spend in report["store_spend"].items():
+        print(f"-> {store:<10} R{spend:,.2f}")
+
+    print("\nKEY DRIVERS & CONCENTRATION")
+    print(f"Top Category:       {report['top_category']} ({report['top_category_share']:.1f}%)")
+    print(f"Top Store:          {report['top_store']} ({report['top_store_share']:.1f}%)")
+
+    print("="*40 + "\n")
+
+def set_monthly_budget():
+    global budget_data
+
+    budget = get_valid_num("Enter monthly budget: R", float, 1, 100000)
+
+    budget_data["monthly_budget"] = budget
+
+    with open("grocery_budget.json", "w") as file:
+        json.dump(budget_data, file, indent=4)
+
+    print(f"Budget set to R{budget:,.2f}")
+
+def get_budget():
+    if budget_data["monthly_budget"] is None:
+        return 0
+    return budget_data["monthly_budget"]
 
 #Main Loop
 while True:
     #Display CLI menu
-    print(f"----- GROCERY DATA TRACKER -----\n1. Add Item\n2. View Items\n3. Spending Analytics\n4. Exit Tracker")
+    print(f"----- GROCERY DATA TRACKER -----\n1. Add Item\n2. View Items\n3. Grocery Analytics\n4. Set Budget\n5. Exit Tracker")
 
     #User Choice
-    user_choice = get_valid_num("Enter Number: ",int,1,4)
+    user_choice = get_valid_num("Enter Number: ",int,1,5)
 
     #Match Case
     match user_choice:
-        case 1:#Add item (With Function Reused in recognised patterns)
+        case 1: #Add item (With Function Reused in recognised patterns)
             #item Name
             item_name = get_non_empty_str("Enter item name: ")
             #item Price
@@ -229,46 +329,20 @@ while True:
                 json.dump(grocery_list, file, indent = 4)
             print("Data successfully saved to Memory!")
 
-        case 2:
+        case 2: #View items
             view_items(grocery_list)
-        case 3:
-            #Spending Analytics
-            #Create DataFrame
+
+        case 3: #Current State Report
             grocery_data_df = pd.DataFrame(grocery_list)
-
             report = generate_report(grocery_data_df)
-            print("\n===== SPENDING ANALYTICS =====")
-            print("📊 MONTH PERFORMANCE")
-            print(f"📅 This Month: R{report['current_month_spend']:,.2f}")
-            print(f"📅 Last Month: R{report['last_month_spend']:,.2f}")
-            print(f"Trend: {report['month_velocity_insight']} ({report['month_velocity_pcnt']:.1f}% than last month)")
+            display_report(report)
 
-            print("\n📦 MONTH BREAKDOWN")
-
-            print("Category Spend:")
-            for category, spend in report["category_spend"].items():
-                    print(f"  - {category}: R{spend:,.2f}")
-
-            print("\nStore Spend:")
-            for store, spend in report["store_spend"].items():
-                    print(f"  - {store}: R{spend:,.2f}")
-
-            print("\n📈 WEEKLY SIGNAL")
-            print(f"📅 This Week: R{report['current_week_spend']:,.2f}")
-            print(f"📅 Last Week: R{report['last_week_spend']:,.2f}")
-
-
-            print("\n💰 LONG-TERM CONTEXT")
-            print(f"Lifetime Spend: R{report['total_spend']:,.2f}")
-
-            print("\n🏆 KEY DRIVERS")
-            print(f"Top Category: {report['top_category']} ({report['top_category_share']:.1f}% of this months spend)")
-            print(f"Top Store: {report['top_store']} ({report['top_store_share']:.1f}% of this months spend)")
-
-            print("== == == == == == ==\n")
-            
         case 4:
+            set_monthly_budget()
+
+        case 5:
             print("Exiting Tracker!")
             break
+
         case _:
             print("Wrong Value entered")
