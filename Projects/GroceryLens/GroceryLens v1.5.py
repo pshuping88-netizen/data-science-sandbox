@@ -284,7 +284,7 @@ def get_budget():
 #Main Loop
 while True:
     #Display CLI menu
-    print(f"----- GROCERY DATA TRACKER -----\n1. Add Item\n2. View Items\n3. Grocery Analytics\n4. Set Budget\n5. Exit Tracker")
+    print(f"----- GROCERYLENS -----\n1. Add Item\n2. View Items\n3. Grocery Analytics\n4. Set Budget\n5. Exit GroceryLens")
 
     #User Choice
     user_choice = get_valid_num("Enter Number: ",int,1,5)
@@ -337,11 +337,11 @@ while True:
             report = generate_report(grocery_data_df)
             display_report(report)
 
-        case 4:
+        case 4: #Set Budget
             set_monthly_budget()
 
-        case 5:
-            print("Exiting Tracker!")
+        case 5: #Exit Tracker
+            print("Exiting GroceryLens!")
             break
 
         case _:
