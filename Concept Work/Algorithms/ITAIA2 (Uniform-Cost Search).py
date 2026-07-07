@@ -14,7 +14,6 @@ print("From    To    Distance")
 for road in road_network1:
     print(f"{road[0]}      {road[1]}      {road[2]}")
 
-
 #Question 1.6
 #Uniform-Cost Search
 #-an algorithm that expands into the least costly path first

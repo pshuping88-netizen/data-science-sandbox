@@ -216,17 +216,17 @@ plt.show()
 
 #Question 2.2
 #Get Price Quantiles
-log_price_q1= car_pricing_data["log_price"].quantile(0.25)
-log_price_q2= car_pricing_data["log_price"].quantile(0.50)
-log_price_q3= car_pricing_data["log_price"].quantile(0.75)
+price_q1= car_pricing_data["price"].quantile(0.25)
+price_q2= car_pricing_data["price"].quantile(0.50)
+price_q3= car_pricing_data["price"].quantile(0.75)
 
 #Functions
 def price_band(x):
-    if x <= log_price_q1:
+    if x <= price_q1:
         return "automatic valuation"
-    elif x <= log_price_q2:
+    elif x <= price_q2:
         return "manual review"
-    elif x <= log_price_q3:
+    elif x <= price_q3:
         return "high value review"
     else:
         return "premium valuation"
@@ -270,7 +270,7 @@ car_pricing_data["business_category"] = car_pricing_data.apply(business_category
 #Question 3.1
 #Baseline Model (Linear Regression)
 X = scaled_clustering_data.drop(columns=["log_price"]) #Data
-y = car_pricing_data["log_price"] #Target
+y = car_pricing_data["price"] #Target
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size= 0.20, random_state= 42 )
@@ -286,9 +286,9 @@ mae_linear = mean_absolute_error(y_test, linear_y_pred)
 r2_linear = r2_score(y_test, linear_y_pred)
 
 
-print(f"Linear Regression RMSE: {rmse_linear:,.2}")
-print(f"Linear Regression MAE: {mae_linear:,.2}")
-print(f"Linear Regression R2: {r2_linear:,.2}")
+print(f"Linear Regression RMSE: {rmse_linear:,.2f}")
+print(f"Linear Regression MAE: {mae_linear:,.2f}")
+print(f"Linear Regression R2: {r2_linear:,.2f}")
 
 #Modelling Approach 2 (K Nearest Neighbour)
 #(Model uses same data as Linear)
@@ -302,9 +302,9 @@ rmse_knn = np.sqrt(mean_squared_error(y_test, knn_y_pred))
 mae_knn = mean_absolute_error(y_test, knn_y_pred)
 r2_knn = r2_score(y_test, knn_y_pred)
 
-print(f"K-Nearest Neighbour RMSE: {rmse_knn:,.2}")
-print(f"K-Nearest Neighbour MAE: {mae_knn:,.2}")
-print(f"K-Nearest Neighbour R2: {r2_knn:,.2}")
+print(f"K-Nearest Neighbour RMSE: {rmse_knn:,.2f}")
+print(f"K-Nearest Neighbour MAE: {mae_knn:,.2f}")
+print(f"K-Nearest Neighbour R2: {r2_knn:,.2f}")
 
 #Modelling Approach 3 (Random Forest) - Final Model
 random_forest_model = RandomForestRegressor(n_estimators= 100, random_state= 42)
@@ -316,6 +316,6 @@ rmse_rf = np.sqrt(mean_squared_error(y_test, rf_y_pred))
 mae_rf = mean_absolute_error(y_test, rf_y_pred)
 r2_rf = r2_score(y_test, rf_y_pred)
 
-print(f"Random Forest RMSE: {rmse_rf:,.2}")
-print(f"Random Forest MAE: {mae_rf:,.2}")
-print(f"Random Forest R2: {r2_rf:,.2}")
+print(f"Random Forest RMSE: {rmse_rf:,.2f}")
+print(f"Random Forest MAE: {mae_rf:,.2f}")
+print(f"Random Forest R2: {r2_rf:,.2f}")
