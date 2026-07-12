@@ -606,5 +606,85 @@
         "Date": "2026-06-22",
         "Category": "Staple",
         "Store": "Spar"
+    },
+    {
+        "Item Name": "Doritos Supreme Cheese",
+        "Price": 31.99,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Snacks",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Tikka Breast Chicken",
+        "Price": 38.8,
+        "Quantity": 2,
+        "Date": "2026-07-12",
+        "Category": "Protein",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Hamburger Buns",
+        "Price": 16.99,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Staple",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Coke",
+        "Price": 18.99,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Drinks",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Chakalaka",
+        "Price": 26.99,
+        "Quantity": 2,
+        "Date": "2026-07-12",
+        "Category": "Produce",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Chicken Schnizel Pack",
+        "Price": 80.49,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Protein",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Milk Chocolate",
+        "Price": 24.99,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Snacks",
+        "Store": "PicknPay"
+    },
+    {
+        "Item Name": "Cake Flour",
+        "Price": 41.99,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Staple",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Baked Beans",
+        "Price": 11.99,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Protein",
+        "Store": "Spar"
+    },
+    {
+        "Item Name": "Beef Mince",
+        "Price": 60.59,
+        "Quantity": 1,
+        "Date": "2026-07-12",
+        "Category": "Protein",
+        "Store": "Spar"
     }
 ]
