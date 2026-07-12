@@ -1,20 +1,25 @@
 #GroceryLens V1.5
 #import modules
+from pathlib import Path
+
 import json
 import pandas as pd
 from datetime import date
 import calendar
 
-#Load/Create Grocery Data
+#Load/Create Grocery & Budget Data
+base_directory = Path(__file__).resolve().parent
+file_path1 = base_directory / "data" / "grocery_data.json"
+file_path2 = base_directory / "data" / "grocery_budget.json"
+
 try:
-    with open("grocery_data.json","r") as file:
+    with open(file_path1,"r") as file:
         grocery_list = json.load(file)
 except FileNotFoundError:
     grocery_list = []
 
-#Load/Create Budget Data
 try:
-    with open("grocery_budget.json", "r") as file:
+    with open(file_path2, "r") as file:
         budget_data = json.load(file)
 except FileNotFoundError:
     budget_data = {"monthly_budget": None}
@@ -61,7 +66,7 @@ def view_items(data_list):
          print("There is no data to display (data is empty)")
          return
     grocery_dataframe = pd.DataFrame(data_list)
-    print(grocery_dataframe)
+    print(grocery_dataframe.to_string(index=False))
 
 def generate_report(df):
     df = df.copy()
@@ -270,7 +275,7 @@ def set_monthly_budget():
 
     budget_data["monthly_budget"] = budget
 
-    with open("grocery_budget.json", "w") as file:
+    with open(file_path2, "w") as file:
         json.dump(budget_data, file, indent=4)
 
     print(f"Budget set to R{budget:,.2f}")
@@ -324,7 +329,7 @@ while True:
             grocery_list.append(grocery_item)
             print("Item succesfully added!")
             #Save item data   
-            with open("grocery_data.json","w") as file:
+            with open(file_path1,"w") as file:
                 json.dump(grocery_list, file, indent = 4)
             print("Data successfully saved to Memory!")
 
