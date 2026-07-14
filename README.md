@@ -1,48 +1,57 @@
-# data-science-sandbox
+# Data-Science-Sandbox
+A personal workspace for building, testing, and refining data science, analytics, and data engineering projects using Python.
 
-A workspace for building, testing, and iterating Python-based data systems and analytical projects.
+## About
+I'm a Data Science student and this repository serves as my personal sandbox for experimenting with new ideas, developing practical projects and applying concepts learned through coursework and independent study.
 
+The projects in this repository range from early prototypes and experiments to more complete applications, with a focus on solving real-world problems using data.
 
-## Overview
+## Repository Focus
+Projects in this repository involve:
 
-This repository contains ongoing projects, coursework implementations (conceptual and applied) and system prototypes developed through hands on Python development.
-
-My focus is on applying structured thinking to real problems involving data processing, data analysis, system design and analytical modelling.
-
-This is not a tutorial or notes repository — it is a build environment.
-
-## What This Repository Is Used For
-- Building small to medium Python systems
-- Implementing academic and applied data science assignments
-- Experimenting with data structures, algorithms and workflows
-- Developing prototypes before production level restructuring
-- Iterative improvement of code quality and system design
+* Data collection and preprocessing
+* Exploratory Data Analysis (EDA)
+* Statistical analysis
+* Machine learning
+* Data pipelines and ETL workflows
+* Data visualization
+* Business analytics
+* Python application development
 
 ## Current Projects
 
-### Grocery System
+### GroceryLens
+A grocery analytics platform designed to help users track spending habits and generate meaningful insights from purchase data.
 
-A personal spending and grocery tracking system focused on:
+Current functionality includes:
+* Transaction management
+* Spending analytics
+* Category and store summaries
+* Monthly reporting
+* Budget tracking
+* Data validation
 
-- Data pipeline structure
-- Structured transaction processing
-- Categorisation of spending behaviour
-- Summary statistics and reporting outputs
+Planned improvements:
+* SQL database integration
+* ETL pipeline
+* Interactive dashboard
+* Predictive spending analysis
+* Streamlit web application
 
-### ITSCA2 Assignment — Vehicle Valuation Model (Mutuka Automotive)
+## Future Projects
+* Property Intelligence Platform
+* Logistics Analytics & Simulation
+* Business Intelligence dashboards
+* Data Engineering pipelines
 
-A data science assignment focused on building a vehicle valuation model.
+## Technologies
+* Python
+* Pandas
+* NumPy
+* Scikit-learn
+* SQL
+* Git
+* GitHub
 
-Key areas include:
-
-- Data cleaning and preprocessing
-- Feature engineering for vehicle attributes
-- Exploratory data analysis (EDA)
-- Predictive modelling for vehicle pricing/valuation
-- Evaluation of model performance and assumptions
-
-## Tools
-
-- Python
-- Git
-- GitHub
+## Status
+This repository is actively maintained as I continue developing my skills and building new projects throughout my data science journey.
