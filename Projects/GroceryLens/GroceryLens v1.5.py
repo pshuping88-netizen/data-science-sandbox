@@ -174,12 +174,11 @@ def generate_report(df):
     if budget > 0:
         if projected_month_spend > budget:
             spend_projection_status = "Projected to exceed budget"
+            projected_budget_usage = (projected_month_spend / budget) * 100
         else:
             spend_projection_status = "Projected to remain within budget"
     else:
         spend_projection_status = "No budget set"
-
-    projected_budget_usage = (projected_month_spend / budget) * 100
 
     #Context is Current Month / Monthly
     #Top Category / Store & Spend
@@ -293,12 +292,14 @@ def display_report(report):
     if report["projected_budget_difference"] is not None:
         difference = report["projected_budget_difference"]
 
-    if difference >= 0:
-        print(f"Projected Remaining:     R{difference:,.2f}")
-    else:
-        print(f"Projected Overspend:    R{abs(difference):,.2f}")
+        if difference >= 0:
+            print(f"Projected Remaining:     R{difference:,.2f}")
+        else:
+            print(f"Projected Overspend:    R{abs(difference):,.2f}")
 
-    print(f"Projected Budget Usage:  {report['projected_budget_usage']:.1f}%")
+    if report["projected_budget_usage"] is not None:
+        print(f"Projected Budget Usage:  {report['projected_budget_usage']:.1f}%")
+
     print(f"Status:                  {report['projection_status']}")
 
     print("\nWEEKLY VIEW")
