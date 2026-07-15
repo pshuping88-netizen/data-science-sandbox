@@ -144,13 +144,42 @@ def generate_report(df):
         else:
             budget_status = "Low Usage"
     else:
-        budget_status = "NO BUDGET"
+        budget_status = "No Budget Set"
 
     #Monthly % Change
     if last_month_spend > 0:
         month_change_pcnt = ((current_month_spend - last_month_spend) / last_month_spend) * 100
     else:
         month_change_pcnt = 0
+    
+    #Spend Projection
+    days_passed = today.day
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
+
+    #Calculate avg daily spend and projected month spend
+    if days_passed > 0:
+        average_daily_spend = current_month_spend / days_passed
+        projected_month_spend = average_daily_spend * days_in_month
+    else:
+        average_daily_spend = 0
+        projected_month_spend = 0
+
+    #Compare to budget
+    if budget > 0:
+        projected_budget_difference = budget - projected_month_spend
+    else:
+        projected_budget_difference = None
+
+    #Spend Projection Status
+    if budget > 0:
+        if projected_month_spend > budget:
+            spend_projection_status = "Projected to exceed budget"
+        else:
+            spend_projection_status = "Projected to remain within budget"
+    else:
+        spend_projection_status = "No budget set"
+
+    projected_budget_usage = (projected_month_spend / budget) * 100
 
     #Context is Current Month / Monthly
     #Top Category / Store & Spend
@@ -215,6 +244,13 @@ def generate_report(df):
         "budget_used_pcnt": budget_used_pcnt,
         "budget_status": budget_status,
 
+        #Spend Projection
+        "average_daily_spend": average_daily_spend,
+        "projected_month_spend": projected_month_spend,
+        "projected_budget_difference": projected_budget_difference,
+        "projected_budget_usage": projected_budget_usage,
+        "projection_status": spend_projection_status,
+
         #Lifetime Context
         "total_spend": total_spend,
 
@@ -227,7 +263,7 @@ def generate_report(df):
 
 def display_report(report):
     print("\n" + "="*40)
-    print(f"GROCERY ANALYTICS REPORT — {report['month_name']} {report['year']}")
+    print(f"GROCERYLENS REPORT — {report['month_name']} {report['year']}")
     print("-"*40)
 
     print("\nSPENDING OVERVIEW")
@@ -249,6 +285,21 @@ def display_report(report):
 
     else:
         print("Monthly Budget:      Not set")
+
+    print("\nMONTH END SPEND PROJECTION")
+    print(f"Average Daily Spend:     R{report['average_daily_spend']:,.2f}")
+    print(f"Projected Month Spend:   R{report['projected_month_spend']:,.2f}")
+
+    if report["projected_budget_difference"] is not None:
+        difference = report["projected_budget_difference"]
+
+    if difference >= 0:
+        print(f"Projected Remaining:     R{difference:,.2f}")
+    else:
+        print(f"Projected Overspend:    R{abs(difference):,.2f}")
+
+    print(f"Projected Budget Usage:  {report['projected_budget_usage']:.1f}%")
+    print(f"Status:                  {report['projection_status']}")
 
     print("\nWEEKLY VIEW")
     print(f"This Week:      R{report['current_week_spend']:,.2f}")
@@ -288,7 +339,7 @@ def get_budget():
 #Main Loop
 while True:
     #Display CLI menu
-    print(f"----- GROCERYLENS -----\n1. Add Item\n2. View Items\n3. Grocery Analytics\n4. Set Budget\n5. Exit GroceryLens")
+    print(f"----- GROCERYLENS -----\n1. Add Purchase\n2. View Purchases\n3. Generate Report\n4. Set Monthly Budget\n5. Exit GroceryLens")
 
     #User Choice
     user_choice = get_valid_num("Enter Number: ",int,1,5)
