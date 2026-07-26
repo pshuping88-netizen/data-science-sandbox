@@ -1,57 +1,64 @@
 # Data-Science-Sandbox
-A personal workspace for building, testing, and refining data science, analytics, and data engineering projects using Python.
 
-## About
-I'm a Data Science student and this repository serves as my personal sandbox for experimenting with new ideas, developing practical projects and applying concepts learned through coursework and independent study.
+## Overview
+The Data Science Sandbox is my development workspace for experimenting with ideas, learning new technologies, and building prototypes in data science, analytics, and data engineering.
 
-The projects in this repository range from early prototypes and experiments to more complete applications, with a focus on solving real-world problems using data.
+Unlike my main portfolio, this repository contains work-in progress projects, experiments, and learning exercises that are refined into portfolio level projects over time.
 
-## Repository Focus
-Projects in this repository involve:
+___
+## Purpose
+This repository documents my learning process and provides a space to build, test, and refine ideas through hands on projects.
 
-* Data collection and preprocessing
-* Exploratory Data Analysis (EDA)
-* Statistical analysis
-* Machine learning
-* Data pipelines and ETL workflows
-* Data visualization
-* Business analytics
-* Python application development
+It contains prototypes, coursework, practice exercises, and projects in active development before they are polished and moved to my main portfolio repository.
 
-## Current Projects
+___
+## Areas of Focus
+Current work includes topics such as:
 
-### GroceryLens
-A grocery analytics platform designed to help users track spending habits and generate meaningful insights from purchase data.
+- Python programming
+- Data analysis
+- Exploratory Data Analysis (EDA)
+- Machine learning
+- Data engineering
+- ETL pipelines
+- SQL and databases
+- Data visualization
+- Software development
+- Business analytics
 
-Current functionality includes:
-* Transaction management
-* Spending analytics
-* Category and store summaries
-* Monthly reporting
-* Budget tracking
-* Data validation
+___
+## Repository Structure
+The repository is organized into different areas based on the type of work:
 
-Planned improvements:
-* SQL database integration
-* ETL pipeline
-* Interactive dashboard
-* Predictive spending analysis
-* Streamlit web application
+- **Projects** – Applications and projects currently in development.
+- **Fundamentals** – Practice exercises and implementations of core programming and data science concepts.
+- **Concept Work** – Research, notes, prototypes, and exploratory work.
+- **Archived Projects** – Completed projects that have been migrated to the portfolio repository.
 
-## Future Projects
-* Property Intelligence Platform
-* Logistics Analytics & Simulation
-* Business Intelligence dashboards
-* Data Engineering pipelines
+Each section may contain source code, notebooks, datasets, documentation, and supporting assets depending on the project.
 
+___
+## Current Focus
+Current areas of development include:
+
+- Logistics Analytics & Simulation Platform
+- Property Intelligence Platform
+- Data Engineering pipelines
+- Business Intelligence dashboards
+- Additional experimental projects
+
+___
 ## Technologies
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* SQL
-* Git
-* GitHub
+- Python
+- Jupyter Notebook
+- Pandas
+- NumPy
+- SQL
+- Git
+- GitHub
 
+Additional technologies are introduced as projects evolve.
+
+___
 ## Status
-This repository is actively maintained as I continue developing my skills and building new projects throughout my data science journey.
+This repository is actively maintained as I continue learning, experimenting, and developing practical projects in Data Science and Data Engineering.
