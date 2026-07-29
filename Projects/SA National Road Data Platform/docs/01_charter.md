@@ -19,7 +19,7 @@ Publicly available road data is often distributed across multiple sources, which
 
 ___
 ## Project Objective
-To design and implement a centralized road intelligence platform that integrates publicly available South African national road datasets, provides structured data storage and analytical capabilities, and supports scenario based simulations to improve operational planning and decision making.
+To design and implement a centralized road data platform that integrates publicly available South African national road datasets, provides structured data storage and analytical capabilities, and supports scenario based simulations to improve operational planning and decision making.
 
 ___
 ## Project Scope
@@ -67,7 +67,7 @@ ___
 ## Stakeholders
 
 |Stakeholder       |Interest/Responsibility                                                           |
-|---               |                                                                               ---|
+|---               |---                                                                               |
 |Project Sponsor   |Defines project objectives, manages priorities, and approves deliverables         |
 |End Users         |Logistics managers, and students who use the platform's analyses and simulations  |
 |Data Providers    |Organizations that publish the public national road datasets used by the platform |
