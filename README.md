@@ -42,7 +42,6 @@ ___
 Current areas of development include:
 
 - Logistics Analytics & Simulation Platform
-- Property Intelligence Platform
 - Data Engineering pipelines
 - Business Intelligence dashboards
 - Additional experimental projects
