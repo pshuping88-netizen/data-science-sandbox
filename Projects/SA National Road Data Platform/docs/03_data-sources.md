@@ -11,16 +11,16 @@ Datasets selected for this project should:
 ___
 ## Data Source Register
 
-|Dataset               |Source                  |Status            |Priority |Format             | Purpose                |
-|---                   |---                     |---               |---      |---                |---                     |
-|National Road Network |Geofabrik OpenStreetMap |Approved (Subset) |High     |GeoPackage (.gpkg) |Define road network     |
-|Traffic Counts        |TBD                     |Researching       |High     |TBD                |Analyse road usage      |
-|Road Crash Data       |TBD                     |Researching       |High     |TBD                |Model disruptions       |
-|Road Condition        |TBD                     |Researching       |High     |TBD                |Infrastructure analysis |
-|Fuel Prices           |TBD                     |Researching       |Medium   |TBD                |Cost modelling          |
-|Toll Data             |TBD                     |Researching       |Medium   |TBD                |Route cost analysis     |
-|Freight Corridor Data |TBD                     |Researching       |Medium   |TBD                |Corridor importance     |
-|Weather Data          |TBD                     |Researching       |Low      |TBD                |Environmental scenarios |
+|Dataset               |Source                  |Status              |Priority |Format             | Purpose                |
+|---                   |---                     |---                 |---      |---                |---                     |
+|National Road Network |Geofabrik OpenStreetMap |Approved (3 Layers) |High     |GeoPackage (.gpkg) |National Roads, Places, Provinces              |
+|Traffic Counts        |TBD                     |Researching         |High     |TBD                |Analyse road usage      |
+|Road Crash Data       |TBD                     |Researching         |High     |TBD                |Model disruptions       |
+|Road Condition        |TBD                     |Researching         |High     |TBD                |Infrastructure analysis |
+|Fuel Prices           |TBD                     |Researching         |Medium   |TBD                |Cost modelling          |
+|Toll Data             |TBD                     |Researching         |Medium   |TBD                |Route cost analysis     |
+|Freight Corridor Data |TBD                     |Researching         |Medium   |TBD                |Corridor importance     |
+|Weather Data          |TBD                     |Researching         |Low      |TBD                |Environmental scenarios |
 
 ___
 ## Notes
